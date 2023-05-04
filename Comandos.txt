@@ -1,0 +1,55 @@
+docker compose up -d
+docker compose exec app bash
+pip
+django-admin startproyect hola
+cd hola/
+ls
+python3 manage.py startapp holaMundo
+ls 
+    # Raiz de proyecto donde está manage
+    #Init hace que el archivo sea tratado como paquete
+python3 manage.py runserver # Levanta un  servidor de pruebas
+
+python3 manage.py runserver 0:9000 # Expone en el puerto 8000django-admin startproject inscripciones
+
+docker compose exec db bash  # Entrar al db
+
+docker compose down -v # Elimina el volumen de la base de datos, quita los datos anteriores y los reestablece de 0.
+# Elimina volumenes y Red
+
+python3 manage.py check
+
+python3 manage.py migrate # Para hacer una migracion y verlo reflejado en la base de datos
+python3 manage.py makemigrations # Para cuando ya se hizo un migrate y hacer actualizacion
+
+python3 manage.py createsuperuser # Crea un superusuario
+
+
+python3 manage.py startapp usuarios
+
+- Ir a SETTINGS dentro de INSCRIPCIONES poner en apps 'usuarios'
+
+mover DOCENTE a admin
+    # is_staff designa si puede entrar a Admin o no
+    # is_superuser es como el ROOT de linux
+    from django.contrib.auth.models iport User
+    class Docente(models.Model):
+        matricula = models.CharField('Matricula', max_length=50)
+        rfc = modles.CharField('R.F.C', max_length=13)
+        apellido_paterno = models.CharField(max_length=150)
+        avatar = models.ImageField('Foto de perfil', upload_to='perfiles')
+        fecha_nacimiento = models.DateField()
+        usuario = models.OneToOneField(User, verbose_name= "Usuario", on_delete=models.CASCADE)
+
+    class Alumno(models.Model):
+        matricula = models.CharField('Matricula', max_length=50)
+        rfc = modles.CharField('R.F.C', max_length=13)
+        apellido_paterno = models.CharField(max_length=150)
+        avatar = models.ImageField('Foto de perfil', upload_to='perfiles')
+        fecha_nacimiento = models.DateField()
+        usuario = models.OneToOneField(User, verbose_name= "Usuario", on_delete=models.CASCADE)
+        programa = models.ForeignKey("unidades_academicas.ProgramaAcademico", \
+                    vebose_name="Programa", on_delete=models.CASCADE)
+
+RECONSTRUIR IMAGEN DOCKER
+    docker-compose up -d --build
