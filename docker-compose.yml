@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    container_name: inscripciones
+    container_name: comedor
     #restart: always
     depends_on:
       - db
@@ -17,11 +17,11 @@ services:
 
   db:
     image: mariadb
-    container_name: inscripciones-db
+    container_name: comedor-db
     #restart: always
     environment:
-      MYSQL_DATABASE: inscripciones
-      MYSQL_USER: inscripcionesuser
+      MYSQL_DATABASE: comedor
+      MYSQL_USER: comedor
       MYSQL_PASSWORD: "admin1234"
       MYSQL_ROOT_PASSWORD: admin1234
     volumes:

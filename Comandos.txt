@@ -10,7 +10,7 @@ ls
     #Init hace que el archivo sea tratado como paquete
 python3 manage.py runserver # Levanta un  servidor de pruebas
 
-python3 manage.py runserver 0:9000 # Expone en el puerto 8000django-admin startproject inscripciones
+python3 manage.py runserver 0:9000 # Expone en el puerto 8000django-admin startproject comedor
 
 docker compose exec db bash  # Entrar al db
 
@@ -27,7 +27,7 @@ python3 manage.py createsuperuser # Crea un superusuario
 
 python3 manage.py startapp usuarios
 
-- Ir a SETTINGS dentro de INSCRIPCIONES poner en apps 'usuarios'
+- Ir a SETTINGS dentro de comedor poner en apps 'usuarios'
 
 mover DOCENTE a admin
     # is_staff designa si puede entrar a Admin o no
