@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+    Catálogo de recetas
+{% endblock titulo %}
+
+
+{% block contenido %}
+    <h1>Catálogo de recetas</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th><input type="checkbox" name="todos" id="todos"></th>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Hora</th>
+                <th>Minuto</th>
+                <th>Ingredientes</th>
+                <th>Instrucciones</th>
+                <th>Imagen</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% csrf_token %}
+            {% for recetario in object_list %}
+            <tr>
+                <td>
+                    <input type="checkbox" name="{{recetario.id}}">
+                </td>
+                <td>{{recetario.nombre}}</td>
+                <td>{{recetario.descripcion}}</td>
+                <td>{{recetario.hora}}</td>
+                <td>{{recetario.minuto}}</td>
+                <td>{{recetario.ingredientes}}</td>
+                <td>{{recetario.instrucciones}}</td>
+                <td>{{recetario.imagen}}</td>
+                <td>
+                    <a class="btn btn-sm btn-primary"
+                        href="{% url 'editar_receta' recetario.id %}">
+                        Editar
+                    </a>
+                    <a class="btn btn-sm btn-danger"
+                        href="{% url 'eliminar_receta' recetario.id %}">
+                        Eliminar
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock contenido %}
+
+
+{% block scripts %}
+
+{% endblock scripts %}
