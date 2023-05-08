@@ -6,5 +6,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', Bienvenida.as_view(), name='bienvenida'),
     path('recetario/', include('recetario.urls')),
-
+    path('usuarios/', include('usuarios.urls')),
 ]
