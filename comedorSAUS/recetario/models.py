@@ -3,8 +3,8 @@ from .validadores import imagen_validador
 
 
 class Receta(models.Model):
-    nombre = models.CharField(max_length=250)
-    descripcion = models.CharField(max_length=240)
+    nombre = models.CharField(max_length=80)
+    descripcion = models.CharField(max_length=160)
     hora = models.SmallIntegerField('Hora(s)')
     minuto = models.SmallIntegerField('Minuto(s)')
     ingredientes = models.TextField(blank=True, null=True)

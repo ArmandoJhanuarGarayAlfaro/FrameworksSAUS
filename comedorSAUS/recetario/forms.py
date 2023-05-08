@@ -39,3 +39,10 @@ class FormRecetaEditar(FormReceta):
     class Meta:
         exclude = ['id']
         model = Receta
+
+class FiltrosReceta(FormReceta):
+    def __init__(self, *args, **kwargs):
+        super(FiltrosReceta, self).__init__(*args, **kwargs)
+
+        for field in self.fields:
+            self.fields[field].required = False

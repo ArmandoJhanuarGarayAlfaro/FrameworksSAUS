@@ -6,53 +6,107 @@
 
 
 {% block contenido %}
-    <h1>Catálogo de recetas</h1>
+    <h1>
+        Catálgo de recetas
+    </h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th><input type="checkbox" name="todos" id="todos"></th>
-                <th>Nombre</th>
-                <th>Descripcion</th>
-                <th>Hora</th>
-                <th>Minuto</th>
-                <th>Ingredientes</th>
-                <th>Instrucciones</th>
-                <th>Imagen</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% csrf_token %}
-            {% for recetario in object_list %}
+    <form class="d-none d-sm-inline-block form-inline mr-auto
+        ml-md-3 my-2 my-md-0 mw-100 navbar-search" 
+        action="{% url 'buscar_receta' %}" method="post" id="form">
+        {% csrf_token %}
+
+        <table class="table">
             <tr>
                 <td>
-                    <input type="checkbox" name="{{recetario.id}}">
+                    <input type="checkbox" name="todos" id="todos">
                 </td>
-                <td>{{recetario.nombre}}</td>
-                <td>{{recetario.descripcion}}</td>
-                <td>{{recetario.hora}}</td>
-                <td>{{recetario.minuto}}</td>
-                <td>{{recetario.ingredientes}}</td>
-                <td>{{recetario.instrucciones}}</td>
-                <td>{{recetario.imagen}}</td>
+                <td>{{form.nombre}}</td>
+                <td>{{form.hora}}</td>
+                <td>{{form.minuto}}</td>
                 <td>
-                    <a class="btn btn-sm btn-primary"
-                        href="{% url 'editar_receta' recetario.id %}">
-                        Editar
-                    </a>
-                    <a class="btn btn-sm btn-danger"
-                        href="{% url 'eliminar_receta' recetario.id %}">
-                        Eliminar
-                    </a>
+                    <input type="text" class="form-control bg-light
+                        border-0 small" placeholder="Buscar..."
+                        aria-label="Search" aria-describedby="basic-addon2"
+                        type="text" name="programa" value="">
+                </td>
+                <td>
+                    <input class="btn btn-success" type="submit" value="Buscar">
+                    <input type="hidden" name="page" id="page">
                 </td>
             </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        </table>
+    </form>
+
+
+    {% csrf_token %}
+        {% for recetario in object_list %}
+            <div class="col-xl-auto col-md-6 mb-4">
+
+                <div class="card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-1">
+
+                                <div class="text-lg font-weight-bold text-success
+                                    text-uppercase mb-1">
+                                    <input type="checkbox" name="{{recetario.id}}">
+                                    {{recetario.nombre}}
+                                </div>
+                                <div class="text-lg font-weight-bold text-primary mb-1">
+                                    Descripcion:
+                                </div>
+                                <div class="h5 mb-0 text-xs font-weight-bold text-gray-800">
+                                    {{recetario.descripcion}}
+                                </div>
+                                <div class="text-lg font-weight-bold text-primary mb-1">
+                                    Tiempo preparacion:
+                                </div>
+                                <div class="h5 mb-0 text-xs font-weight-bold text-gray-800">
+                                    {{recetario.hora}}hrs {{recetario.minuto}} min
+                                </div>
+                            </div>
+
+                            <div class="col-auto">
+                                <a class="btn btn-sm btn-primary"
+                                    href="{% url 'editar_receta' recetario.id %}">
+                                    Editar
+                                </a>
+                                <a class="btn btn-sm btn-danger"
+                                    href="{% url 'eliminar_receta' recetario.id %}">
+                                    Eliminar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+    
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
 {% endblock contenido %}
 
-
 {% block scripts %}
-
+    <script>
+        function enviar(page){
+            $("#page").val(page);
+            $("#form").submit();
+        }
+    </script>
 {% endblock scripts %}
+
