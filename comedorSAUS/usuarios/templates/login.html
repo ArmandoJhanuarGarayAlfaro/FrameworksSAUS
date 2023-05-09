@@ -44,16 +44,13 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">¡Bienvenido!</h1>
                                     </div>
-                                    <form class="user">
+                                    <form class="user" method="post" action="{% url 'login' %}">
                                         {% csrf_token %}
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address...">
+                                            <input name="username" type="text" class="form-control form-control-lg" placeholder="Username">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password">
+                                            <input name="password" type="password" class="form-control form-control-lg" placeholder="Password">
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
@@ -61,9 +58,7 @@
                                                 <label class="custom-control-label" for="customCheck">Recuerdame</label>
                                             </div>
                                         </div>
-                                        <a href="{% url 'bienvenida' %}" class="btn btn-primary btn-user btn-block">
-                                            Login
-                                        </a>
+                                        <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">Ingresar</button>
                                         <hr>
                                         <a href="#" class="btn btn-google btn-user btn-block">
                                             <i class="fab fa-google fa-fw"></i> Login con Google

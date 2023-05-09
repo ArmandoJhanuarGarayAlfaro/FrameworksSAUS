@@ -59,8 +59,9 @@ class RegistroChef(SuccessMessageMixin, CreateView):
             return self.render_to_response(self.get_context_data(form=form))
         return super().form_valid(form)
 
+
+
 class ActivarCuenta(TemplateView):
-    
 
     def get(self, request, *args, **kwargs):
 

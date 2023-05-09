@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+    Almacen
+{% endblock titulo %}
+
+
+{% block contenido %}
+    <h1>
+        Listado de insumos
+    </h1>
+
+    <form class="d-none d-sm-inline-block form-inline mr-auto
+        ml-md-3 my-2 my-md-0 mw-100 navbar-search" 
+        action="{% url 'buscar_insumo' %}" method="post" id="form">
+        {% csrf_token %}
+
+        <table class="table">
+            <tr>
+                <td>
+                    <input type="checkbox" name="todos" id="todos">
+                </td>
+                <td>{{form.nombre}}</td>
+                <td>
+                    <input class="btn btn-success" type="submit" value="Buscar">
+                    <input type="hidden" name="page" id="page">
+                </td>
+            </tr>
+        </table>
+    </form>
+
+
+    {% csrf_token %}
+        {% for insumo in object_list %}
+            <div class="col-xl-auto col-md-6 mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col-auto">
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" name="todos" id="todos">
+                                    </td>
+                                    <td>{{insumo.nombre}}</td>
+                                    <td>{{insumo.stock}}</td>
+                                    <td>{{insumo.unidad_de_medida}}</td>
+                                    <td>
+                                        <a class="btn btn-sm btn-primary"
+                                            href="{% url 'editar_insumo' insumo.id %}">
+                                            Editar
+                                        </a>
+                                        <a class="btn btn-sm btn-danger"
+                                            href="{% url 'eliminar_insumo' insumo.id %}">
+                                            Eliminar
+                                        </a>
+                                    </td>
+                                </tr>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+    
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock contenido %}
+
+{% block scripts %}
+    <script>
+        function enviar(page){
+            $("#page").val(page);
+            $("#form").submit();
+        }
+    </script>
+{% endblock scripts %}
+

@@ -7,4 +7,5 @@ urlpatterns = [
     path('', Bienvenida.as_view(), name='bienvenida'),
     path('recetario/', include('recetario.urls')),
     path('usuarios/', include('usuarios.urls')),
+    path('almacen/', include('almacen.urls')),
 ]

@@ -8,22 +8,22 @@ from .models import Receta
 from .forms import FormReceta, FormRecetaEditar, FiltrosReceta
 
 
-class Bienvenida(TemplateView):
+class Bienvenida(LoginRequiredMixin, TemplateView):
     template_name = 'home.html'
 
-class ListRecetas(ListView):
+class ListRecetas(LoginRequiredMixin, ListView):
     paginate_by = 2
     model = Receta
     extra_context = {'form': FiltrosReceta}
 
 
-class NuevaReceta(CreateView):
+class NuevaReceta(LoginRequiredMixin, CreateView):
     model = Receta
     form_class = FormReceta
     success_url = reverse_lazy('lista_recetas')
     extra_context = {'accion': 'Nueva'}
 
-class EditarReceta(UpdateView):
+class EditarReceta(LoginRequiredMixin, UpdateView):
     model = Receta
     form_class = FormRecetaEditar
     extra_context = {'accion': 'Editar'}
@@ -34,7 +34,7 @@ class EliminarReceta(DeleteView):
     success_url = reverse_lazy('lista_recetas')
 
 
-def buscar_receta(request):
+def buscar_receta(LoginRequiredMixin, request):
     recetas = Receta.objects.all().order_by('nombre')
 
     if request.method == 'POST':
