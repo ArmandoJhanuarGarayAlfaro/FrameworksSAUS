@@ -18,7 +18,7 @@
         <table class="table">
             <tr>
                 <td>
-                    <input type="checkbox" name="todos" id="todos">
+                    <input type="checkbox" name="todos" id="todos" class="custom-control-input">
                 </td>
                 <td>{{form.nombre}}</td>
                 <td>{{form.hora}}</td>
@@ -49,7 +49,7 @@
 
                                 <div class="text-lg font-weight-bold text-success
                                     text-uppercase mb-1">
-                                    <input type="checkbox" name="{{recetario.id}}">
+                                    <input type="checkbox" name="{{recetario.id}}" class="custom-control-input">
                                     {{recetario.nombre}}
                                 </div>
                                 <div class="text-lg font-weight-bold text-primary mb-1">
@@ -62,7 +62,7 @@
                                     Tiempo preparacion:
                                 </div>
                                 <div class="h5 mb-0 text-xs font-weight-bold text-gray-800">
-                                    {{recetario.hora}}hrs {{recetario.minuto}} min
+                                    {{recetario.hora}} hrs -{{recetario.minuto}} min
                                 </div>
                             </div>
 
@@ -82,7 +82,7 @@
             </div>
         {% endfor %}
     
-    <div class="pagination">
+    <div class="pagination page-link">
         <span class="step-links">
             {% if page_obj.has_previous %}
                 <a href="?page=1">&laquo; first</a>
