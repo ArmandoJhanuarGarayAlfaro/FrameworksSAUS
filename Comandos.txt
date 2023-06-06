@@ -53,3 +53,7 @@ mover DOCENTE a admin
 
 RECONSTRUIR IMAGEN DOCKER
     docker-compose up -d --build
+
+
+# Grupos
+python3 manage.py loadgroups

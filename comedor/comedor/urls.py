@@ -6,9 +6,6 @@ from rest_framework import routers
 from django.conf import settings
 from django.conf.urls.static import static
 
-# METHODS
-# GET POST PUT PATCH DELETE
-
 router = routers.DefaultRouter()
 
 urlpatterns = [
@@ -16,6 +13,7 @@ urlpatterns = [
     path('',Bienvenida.as_view(),name='bienvenida'),
     path('recetas/', include('recetas.urls')),
     path('almacen/', include('almacen.urls')),
+    path('usuarios/', include('usuarios.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
