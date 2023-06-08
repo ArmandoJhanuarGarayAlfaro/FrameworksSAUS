@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+Catálogo de recetas
+{% endblock titulo %}
+
+{% block contenido %}
+<div>
+    <h1>{{ receta.nombre }}</h1>
+    <br>
+    <p>
+        <strong>
+            <h5> Descripción:</h5>
+        </strong> 
+        {{ receta.descripcion }}
+    </p>
+    <br>
+    <p>
+        <strong>
+            <h5>Tiempo de preparación:</h5>
+        </strong> 
+        {{ receta.hora }}hrs {{ receta.minuto }}min
+    </p>
+    <br>
+    <p>
+        <strong>
+            <h5>Ingredientes:</h5>
+        </strong> 
+        {{ receta.ingredientes }}
+    </p>
+    <br>
+    <p>
+        <strong>
+            <h5>Instrucciones:</h5>
+        </strong> 
+        {{ receta.instrucciones }}
+    </p>
+    <br>
+    {% if receta.imagen %}
+        <img src="{{ receta.imagen.url }}" alt="Foto de platillo" class="img-fluid rounded" style="width: 600px; max-height: 500px;">
+    {% endif %}
+</div>
+{% endblock contenido %}
+
+{% block scripts %}
+{% endblock scripts %}

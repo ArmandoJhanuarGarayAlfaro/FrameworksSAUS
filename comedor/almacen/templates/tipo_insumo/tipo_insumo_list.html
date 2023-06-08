@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+    Lista de Tipo insumos
+{% endblock titulo %}
+
+{% block contenido %}
+    <h1>Lista de tipo insumos</h1>
+    <form action="{% url 'buscar_tipo' %}" method="post" id="form">
+        {% csrf_token %}
+        <table class="table">
+            <tr>
+                <td>{{ form.nombre }}</td>
+                <td>{{ form.unidad_medida }}</td>
+                <td>
+                    <input class="btn btn-success" type="submit" value="Buscar">
+                    <input type="hidden" name="page" id="page" value="1">
+                </td>
+            </tr>
+        </table>
+    </form>
+    <form>
+        {% csrf_token %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" name="todos" id="todos"></th>
+                    <th>Nombre</th>
+                    <th>Unidad de medida</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tipo-insumos-container">
+                {% for tipo_insumo in object_list %}
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="pk_list[]" value="{{ tipo_insumo.pk }}">
+                        </td>
+                        <td>
+                            <a href="{% url 'buscar_insumo_por_tipo' tipo_insumo.pk %}">
+                                {{ tipo_insumo.nombre }}
+                            </a>
+                        </td>
+                        <td>{{ tipo_insumo.unidad_medida }}</td>
+                        <td>
+                            <a class="btn btn-sm btn-primary" href="{% url 'editar_tipo_insumo' tipo_insumo.id %}">
+                                Editar
+                            </a>
+                            <a class="btn btn-sm btn-danger" href="{% url 'eliminar_tipo_insumo' tipo_insumo.id %}">
+                                Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+        <button class="btn btn-sm btn-warning" type="submit">Eliminar seleccionados</button>
+    </form>
+
+    <div id="pagination-loader" style="display: none;">
+        <p>Loading...</p>
+    </div>
+{% endblock contenido %}
+
+{% block scripts %}
+    <script>
+        function enviar(page) {
+            $("#page").val(page);
+            $("#form").submit();
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#todos").click(function () {
+                $('input:checkbox').not(this).prop('checked', this.checked);
+            });
+        });
+
+        var isLoading = false;
+        var nextPage = 2;
+
+        function loadMore() {
+            if (isLoading || nextPage === null) {
+                return;
+            }
+
+            isLoading = true;
+
+            var loader = document.getElementById('pagination-loader');
+            loader.style.display = 'block';
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '?page=' + nextPage);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var response = xhr.responseText;
+
+                    var tempContainer = document.createElement('div');
+                    tempContainer.innerHTML = response;
+
+                    var tipoInsumosContainer = document.getElementById('tipo-insumos-container');
+                    var newTipoInsumos = tempContainer.querySelectorAll('#tipo-insumos-container tr');
+                    newTipoInsumos.forEach(function (tipoInsumo) {
+                        tipoInsumosContainer.appendChild(tipoInsumo);
+                    });
+
+                    var paginationLinks = tempContainer.querySelector('#pagination-links');
+                    if (paginationLinks) {
+                        document.getElementById('pagination-links').innerHTML = paginationLinks.innerHTML;
+                        nextPage++;
+                    } else {
+                        nextPage = null;
+                    }
+                }
+
+                loader.style.display = 'none';
+                isLoading = false;
+            };
+            xhr.send();
+        }
+
+        window.addEventListener('scroll', function () {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                loadMore();
+            }
+        });
+
+        loadMore();
+    </script>
+{% endblock scripts %}
